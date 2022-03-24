@@ -39,8 +39,50 @@ struct OnboardingView: View {
 				}
 				// Center
 				
+				ZStack {
+					ZStack {
+						Circle()
+							.stroke(.white.opacity(0.2), lineWidth: 40)
+							.frame(width: 260, height: 260, alignment: .center)
+						
+						Circle()
+							.stroke(.white.opacity(0.2), lineWidth: 80)
+							.frame(width: 260, height: 260, alignment: .center)
+					}
+					Image("character-man")
+						.resizable()
+						.scaledToFit()
+				}
+				
+				Spacer()
+				
 				// Footer
-			
+				ZStack {
+					// 1. Static Background
+					Capsule()
+						.fill(Color.white.opacity(0.2))
+					
+					Capsule()
+						.fill(Color.white.opacity(0.2))
+						.padding(8)
+					
+					// 2. Call to action (static)
+					
+					
+					// 3. Capsule (dynamic width)
+					HStack {
+						Capsule()
+							.fill(Color.red.opacity(0.9))
+							.frame(width: 80)
+						
+						Spacer()
+					}
+					
+					// 4. Circle (draggable)
+					
+				}
+				.frame(height: 80, alignment: .center)
+				.padding()
 			
 			}
 		}
