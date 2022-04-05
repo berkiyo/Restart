@@ -18,7 +18,7 @@ struct HomeView: View {
 			
 			ZStack {
 				CircleGroupView(ShapeColor: .gray, ShapeOpacity: 0.1)
-				Image("character-2")
+				Image("character-woman")
 					.resizable()
 					.scaledToFit()
 				.padding()

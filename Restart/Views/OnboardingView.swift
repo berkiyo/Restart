@@ -9,10 +9,15 @@ import SwiftUI
 
 struct OnboardingView: View {
     
-	// Property
+	// MARK: Property
 	@AppStorage("onboarding") var isOnboardingViewActive: Bool = true
 	
-	// Body
+	// For the button
+	@State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
+	@State private var buttonOffset: CGFloat = 0
+	
+	
+	// MARK: Body
 	
 	var body: some View {
 		ZStack {
@@ -21,7 +26,7 @@ struct OnboardingView: View {
 			
 			
 			VStack(spacing: 20) {
-				// Header
+				// MARK: Header
 				Spacer()
 				
 				VStack(spacing: 0) {
@@ -37,7 +42,7 @@ struct OnboardingView: View {
 						.multilineTextAlignment(.center)
 						.padding(.horizontal, 10)
 				}
-				// Center
+				// MARK: Center
 				
 				ZStack {
 					// Using our CircleGroupView
@@ -50,7 +55,7 @@ struct OnboardingView: View {
 				
 				Spacer()
 				
-				// Footer
+				// MARK: Footer
 				ZStack {
 					// 1. Static Background
 					Capsule()
@@ -72,12 +77,12 @@ struct OnboardingView: View {
 					HStack {
 						Capsule()
 							.fill(Color.red.opacity(0.9))
-							.frame(width: 80)
+							.frame(width: buttonOffset + 80)
 						
 						Spacer()
 					}
 					
-					// 4. Circle (draggable)
+					// MARK: 4. Circle (draggable)
 					HStack {
 						ZStack {
 							Circle()
@@ -90,9 +95,26 @@ struct OnboardingView: View {
 						}
 						.foregroundColor(.white)
 					.frame(width: 80, height: 80, alignment: .center)
-					.onTapGesture {
-						isOnboardingViewActive = false
-					}
+					.offset(x: buttonOffset)
+					// MARK: GESTURES
+					.gesture(DragGesture()
+							 
+								.onChanged{ gesture in
+								   if gesture.translation.width > 0 && buttonOffset <= buttonWidth - 80 {
+										buttonOffset = gesture.translation.width
+								   }}
+							 
+								.onEnded {
+									_ in
+									if buttonOffset > buttonWidth / 2 {
+										buttonOffset = buttonWidth - 80
+										isOnboardingViewActive = false
+									} else {
+										buttonOffset = 0
+									}
+								}
+							 
+					 )
 						
 						// simple declaractive code :)
 						
@@ -101,7 +123,7 @@ struct OnboardingView: View {
 						Spacer() // push the button to the left
 					}
 				}
-				.frame(height: 80, alignment: .center)
+				.frame(width: buttonWidth, height: 80, alignment: .center)
 				.padding()
 			
 			}
@@ -109,6 +131,7 @@ struct OnboardingView: View {
 	}
 }
 
+// MARK: Preview
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingView()
